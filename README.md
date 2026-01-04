@@ -57,5 +57,3 @@ PARA LAS PRUEBAS:
 Si se agregan tests, se ejecutan con:
 
 	npm test 
-
-	..
