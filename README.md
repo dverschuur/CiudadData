@@ -20,9 +20,8 @@ CONFIGURACIÓN:
 
 1. Crea un archivo `.env` en la raíz del proyecto con las variables mínimas:
 
-	MONGO_URI=tu_uri_de_mongodb
-	PORT=3000
-	NODE_ENV=development
+PORT=3000
+MONGO_URI=mongodb+srv://adminbd:12345@ciudaddata.n2ao9pe.mongodb.net/?appName=CiudadData
 
 2. Opcional: crea un archivo `.env.example` con las mismas claves pero sin valores, y añade `.env` a `.gitignore`.
 
