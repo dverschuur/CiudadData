@@ -45,10 +45,11 @@ export const getCiudad = async (req: Request, res: Response): Promise<void> => {
 
     catch (error) {
         const mensaje = error instanceof Error ? error.message : 'Error desconocido';
+        // Log the full error details server-side for debugging/monitoring.
+        console.error('Error al obtener la ciudad:', mensaje, error);
         res.status(500).json({
             success: false,
             message: 'Error al obtener la ciudad',
-            error: mensaje,
         });
     }
 };
