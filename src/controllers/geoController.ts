@@ -25,15 +25,7 @@ export const postReporteCiudadano = async (req: Request, res: Response): Promise
 
 export const getCiudad = async (req: Request, res: Response): Promise<void> => {
     try {
-        const { city } = req.params;
-
-        if (!city || !city.trim()) {
-            res.status(400).json({
-                success: false,
-                message: 'Falta el parámetro ciudad',
-            });
-            return;
-        }
+        const city = req.params.city!;
 
         const respuestaCiudad = await geoService.obtenerCiudad(city.trim());
 
@@ -55,7 +47,7 @@ export const getCiudad = async (req: Request, res: Response): Promise<void> => {
         const mensaje = error instanceof Error ? error.message : 'Error desconocido';
         res.status(500).json({
             success: false,
-            message: 'Error al obtener la ciudad: ',
+            message: 'Error al obtener la ciudad',
             error: mensaje,
         });
     }
