@@ -16,7 +16,7 @@ export const obtenerCiudad = async (city: string) => {
     const params = {
         name: city,
         maxRows: 1,
-        user,
+        username: user,
     };
 
     const {data} = await axios.get(url, {params});
