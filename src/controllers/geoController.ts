@@ -1,4 +1,4 @@
-import {Request, Response } from 'express';
+import { Request, Response } from 'express';
 import * as geoService from '../services/geoService';
 
 export const postReporteCiudadano = async (req: Request, res: Response): Promise<void> => {
