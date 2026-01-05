@@ -2,6 +2,7 @@ import express, { Request, Response } from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import { conectarbd } from './conexionbd';
+import geoRoutes from './routes/geoRoutes';
 
 dotenv.config();
 
@@ -10,6 +11,7 @@ const port = process.env.PORT || 3000;
 
 app.use(cors());
 app.use(express.json());
+app.use('/geo', geoRoutes);
 
 conectarbd();
 
@@ -21,6 +23,6 @@ app.get('/', (req: Request, res: Response) => {
 });
 
 // Iniciar servidor
-app.listen(port, () => {
-    console.log(`📡 Servidor escuchando en http://localhost:${port}`);
+app.listen(port, () => { 
+    console.log(`Servidor escuchando en http://localhost:${port}`);
 });
