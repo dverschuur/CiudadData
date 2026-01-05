@@ -22,3 +22,41 @@ export const postReporteCiudadano = async (req: Request, res: Response): Promise
         });
     }
 };
+
+export const getCiudad = async (req: Request, res: Response): Promise<void> => {
+    try {
+        const { ciudad } = req.params;
+
+        if (!ciudad || !ciudad.trim()) {
+            res.status(400).json({
+                success: false,
+                message: 'Falta el parámetro ciudad',
+            });
+            return;
+        }
+
+        const respuestaCiudad = await geoService.obtenerCiudad(ciudad.trim());
+
+        if (!respuestaCiudad) {
+            res.status(404).json({
+                success: false,
+                message: 'Ciudad no encontrada',
+            });
+            return;
+        }
+
+        res.status(200).json({
+            success: true,
+            data: respuestaCiudad,
+        });
+    }
+
+    catch (error) {
+        const mensaje = error instanceof Error ? error.message : 'Error desconocido';
+        res.status(500).json({
+            success: false,
+            message: 'Error al obtener la ciudad: ',
+            error: mensaje,
+        });
+    }
+};
