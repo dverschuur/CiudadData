@@ -25,7 +25,7 @@ const ReporteCiudadanoSchema: Schema = new Schema({
     },
 
     ubicacion: {
-        latitud:{ type: Number, required: true },
+        latitud: { type: Number, required: true },
         longitud: { type: Number, required: true },
     },
 
