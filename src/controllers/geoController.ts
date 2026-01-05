@@ -16,7 +16,7 @@ export const postReporteCiudadano = async (req: Request, res: Response): Promise
         const mensaje = error instanceof Error ? error.message : 'Error';
         res.status(500).json({
             success: false,
-            message: 'Error, no se pudo crear el reporte',
+            message: `Error al crear el reporte: ${mensaje}`,
             error: mensaje
         });
     }
