@@ -13,11 +13,12 @@ export const postReporteCiudadano = async (req: Request, res: Response): Promise
     }
 
     catch (error) {
-        const mensaje = error instanceof Error ? error.message : 'Error';
+        const mensaje = error instanceof Error ? error.message : 'Error desconocido';
+        // Log the full error details server-side for debugging/monitoring.
+        console.error('Error al crear reporte ciudadano:', mensaje, error);
         res.status(500).json({
             success: false,
-            message: `Error al crear el reporte: ${mensaje}`,
-            error: mensaje
+            message: 'Error, no se pudo crear el reporte'
         });
     }
 };
