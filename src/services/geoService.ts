@@ -6,7 +6,7 @@ export const crearReporteCiudadano = async (data: Partial<IReporteCiudadano>): P
     return await newReporte.save();
 };
 
-export const obtenerCiudad = async (ciudad: string) => {
+export const obtenerCiudad = async (city: string) => {
     const user = process.env.GEONAMES_USER;
     if (!user) {
         throw new Error('GEONAMES_USER no está definido en las variables de entorno');
@@ -14,7 +14,7 @@ export const obtenerCiudad = async (ciudad: string) => {
 
     const url = 'http://api.geonames.org/searchJSON';
     const params = {
-        name: ciudad,
+        name: city,
         maxRows: 1,
         user,
     };

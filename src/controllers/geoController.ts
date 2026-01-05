@@ -25,9 +25,9 @@ export const postReporteCiudadano = async (req: Request, res: Response): Promise
 
 export const getCiudad = async (req: Request, res: Response): Promise<void> => {
     try {
-        const { ciudad } = req.params;
+        const { city } = req.params;
 
-        if (!ciudad || !ciudad.trim()) {
+        if (!city || !city.trim()) {
             res.status(400).json({
                 success: false,
                 message: 'Falta el parámetro ciudad',
@@ -35,7 +35,7 @@ export const getCiudad = async (req: Request, res: Response): Promise<void> => {
             return;
         }
 
-        const respuestaCiudad = await geoService.obtenerCiudad(ciudad.trim());
+        const respuestaCiudad = await geoService.obtenerCiudad(city.trim());
 
         if (!respuestaCiudad) {
             res.status(404).json({
