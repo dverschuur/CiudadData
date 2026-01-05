@@ -45,7 +45,7 @@ const ReporteCiudadanoSchema: Schema = new Schema({
         type: String,
         required: true,
         default: 'pendiente',
-        enum :['pendiente', 'en_proceso', 'resuelto']
+        enum: ['pendiente', 'en_proceso', 'resuelto']
     }
 });
 
