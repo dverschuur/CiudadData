@@ -12,7 +12,7 @@ export const obtenerCiudad = async (city: string) => {
         throw new Error('GEONAMES_USER no está definido en las variables de entorno');
     }
 
-    const url = 'https://api.geonames.org/searchJSON';
+    const url = 'http://api.geonames.org/searchJSON';
     const params = {
         name: city,
         maxRows: 1,
