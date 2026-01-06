@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { guardarIncidente, obtenerETA } from '../services/transitService';
+import { guardarIncidente, obtenerETA, obtenerRutas } from '../services/transitService';
 
 export async function postIncident(req: Request, res: Response) {
     const { tipo, descripcion, linea, estacion, parada, severidad, reportadoPor, ubicacion } = req.body;
@@ -33,5 +33,20 @@ export async function getETA(req: Request, res: Response) {
         res.status(200).json({ success: true, data: etaData });
     } catch (error: any) {
         res.status(500).json({ error: error.message || 'Error al obtener ETA' });
+    }
+}
+
+export async function getRoutes(req: Request, res: Response) {
+    const { city } = req.params;
+
+    if (!city) {
+        return res.status(400).json({ error: 'Se requiere el parámetro city' });
+    }
+
+    try {
+        const routesData = await obtenerRutas(city);
+        res.status(200).json({ success: true, data: routesData });
+    } catch (error: any) {
+        res.status(500).json({ error: error.message || 'Error al obtener rutas' });
     }
 }

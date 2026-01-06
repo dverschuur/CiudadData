@@ -177,3 +177,101 @@ export async function obtenerETA(stopId: string, lineFilter?: string) {
         throw new Error(`Error al obtener ETA para la parada ${stopId}: ${error.message}`);
     }
 }
+
+export async function obtenerRutas(city: string) {
+    try {
+        // 1. Leer y procesar el archivo de paradas (stops.txt)
+        const stopsFilePath = path.join(__dirname, '..', '..', 'data', 'stops.txt');
+        const stopsData = fs.readFileSync(stopsFilePath, 'utf8');
+        const stopsLines = stopsData.split('\n');
+        const stopsHeader = stopsLines.shift()?.split(',');
+        
+        const stationsByRoute = new Map<string, any[]>();
+        
+        if (stopsHeader) {
+            const stopIdIndex = stopsHeader.indexOf('stop_id');
+            const stopNameIndex = stopsHeader.indexOf('stop_name');
+          
+
+            if (stopIdIndex !== -1 && stopNameIndex !== -1) {
+                stopsLines.forEach(line => {
+                    const values = line.split(',');
+                    const stopId = values[stopIdIndex];
+                    
+                    if (stopId) {
+                       
+                        const routeId = stopId.charAt(0).toUpperCase();
+                        if (!stationsByRoute.has(routeId)) {
+                            stationsByRoute.set(routeId, []);
+                        }
+                        stationsByRoute.get(routeId)!.push({
+                            stopId: stopId,
+                            stopName: values[stopNameIndex]
+                        });
+                    }
+                });
+            }
+        }
+
+        
+        const routes: any[] = [];
+        const feedPromises = MTA_FEEDS.map(async (feedConfig) => {
+            try {
+                const response = await axios.get(feedConfig.url, { 
+                    responseType: 'arraybuffer'
+                });
+
+                const feed = GtfsRealtimeBindings.transit_realtime.FeedMessage.decode(response.data);
+                
+                const routesInFeed = new Set<string>();
+                
+                feed.entity.forEach((entity) => {
+                    if (entity.tripUpdate?.trip?.routeId) {
+                        routesInFeed.add(entity.tripUpdate.trip.routeId);
+                    }
+                    if (entity.vehicle?.trip?.routeId) {
+                        routesInFeed.add(entity.vehicle.trip.routeId);
+                    }
+                });
+
+              
+                Array.from(routesInFeed).forEach(routeId => {
+                    if (!routes.find(r => r.routeId === routeId)) {
+                        routes.push({
+                            routeId,
+                            line: routeId,
+                            feed: feedConfig.name,
+                            feedLines: feedConfig.lines,
+                            stations: stationsByRoute.get(routeId) || [] // Adjuntar estaciones
+                        });
+                    }
+                });
+            } catch (error: any) {
+                console.warn(`Error consultando rutas del feed ${feedConfig.name}:`, error.message);
+            }
+        });
+
+        await Promise.all(feedPromises);
+
+         
+        routes.sort((a, b) => {
+            const aNum = parseInt(a.routeId);
+            const bNum = parseInt(b.routeId);
+            if (!isNaN(aNum) && !isNaN(bNum)) {
+                return aNum - bNum;
+            }
+            return a.routeId.localeCompare(b.routeId);
+        });
+
+        return {
+            city: 'NYC',
+            totalRoutes: routes.length,
+            routes,
+            timestamp: new Date().toISOString()
+        };
+
+    } catch (error: any) {
+        console.error('Error fetching routes:', error);
+        throw new Error(`Error al obtener rutas para ${city}: ${error.message}`);
+    }
+}
