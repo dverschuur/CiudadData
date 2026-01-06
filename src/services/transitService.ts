@@ -65,6 +65,7 @@ function getFeedsToQuery(lineFilter?: string): MTAFeedConfig[] {
     );
 }
 
+/** Guarda un nuevo incidente en el sistema de tránsito */
 export async function guardarIncidente(data: {
  
     tipo: 'retraso' | 'falla' | 'accidente' | 'mantenimiento' | 'otro';

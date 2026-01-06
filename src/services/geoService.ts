@@ -1,11 +1,14 @@
+import { format } from 'node:path';
 import reporteCiudadano, {IReporteCiudadano} from '../models/reporteCiudadano';
 import axios from 'axios';
 
+/** Crea un nuevo reporte ciudadano */
 export const crearReporteCiudadano = async (data: Partial<IReporteCiudadano>): Promise<IReporteCiudadano> => {
     const newReporte = new reporteCiudadano(data);
     return await newReporte.save();
 };
 
+/** Obtiene latitud, longitud y otros datos geográficos de una ciudad específica */
 export const obtenerCiudad = async (city: string) => {
     const user = process.env.GEONAMES_USER;
     if (!user) {
@@ -32,5 +35,35 @@ export const obtenerCiudad = async (city: string) => {
         latitud: respuesta.lat,
         longitud: respuesta.lng,
         poblacion: respuesta.population,
+    };
+};
+
+/** Obtiene la población y datos demográficos de un país */
+export const obtenerPoblacionPais = async (country: string) => {
+    const url = `http://api.worldbank.org/v2/country/${country}/indicator/SP.POP.TOTL`;
+    const params = {
+        format: 'json',
+        per_page: 10,
+    };
+
+    const {data} = await axios.get(url, {params});
+
+    
+    if (!data?.[1]?.length) {
+        return null;
+    }
+
+    const respuesta = data[1].find((item: any) => item.value !== null);
+    
+    if (!respuesta) {
+        return null;
+    }
+
+    return {
+        pais: respuesta.country.value,
+        codigoPais: respuesta.country.id,
+        año: respuesta.date,
+        poblacion: respuesta.value,
+        indicador: respuesta.indicator.value,
     };
 };

@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import * as geoService from '../services/geoService';
 
+/** Crea un nuevo reporte ciudadano */
 export const postReporteCiudadano = async (req: Request, res: Response): Promise<void> => {
     try {
         const ReporteData = req.body;
@@ -22,6 +23,7 @@ export const postReporteCiudadano = async (req: Request, res: Response): Promise
     }
 };
 
+/** Obtiene latitud, longitud y otros datos geográficos de una ciudad específica */
 export const getCiudad = async (req: Request, res: Response): Promise<void> => {
     try {
         const city = req.params.city!;
@@ -48,6 +50,36 @@ export const getCiudad = async (req: Request, res: Response): Promise<void> => {
         res.status(500).json({
             success: false,
             message: 'Error al obtener la ciudad',
+        });
+    }
+};
+
+/** Obtiene la población de un país */
+export const getPoblacionPais = async (req: Request, res: Response): Promise<void> => {
+    try{
+        const country = req.params.country!;
+        const respuestaPoblacion = await geoService.obtenerPoblacionPais(country.toUpperCase());
+
+        if(!respuestaPoblacion){
+            res.status(404).json({
+                success: false,
+                message: 'País no encontrado',
+            });
+            return;
+        }
+
+        res.status(200).json({
+            success: true,
+            data: respuestaPoblacion,
+        });
+    }
+
+    catch (error) {
+        const mensaje = error instanceof Error ? error.message : 'Error desconocido';
+        console.error('Error al obtener la población del país:', mensaje, error);
+        res.status(500).json({
+            success: false,
+            message: 'Error al obtener la población del país',
         });
     }
 };
