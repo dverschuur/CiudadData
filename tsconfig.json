@@ -9,7 +9,7 @@
     "target": "es2022",
     "esModuleInterop": true,
     "moduleResolution": "node",
-    "types": ["node"],
+    "types": ["node", "jest"],
 
     // Other Outputs
     "sourceMap": true,

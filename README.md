@@ -23,6 +23,12 @@ PORT=3000
 MONGO_URI=mongodb+srv://adminbd:12345@ciudaddata.n2ao9pe.mongodb.net/?appName=CiudadData
 GEONAMES_USER=admin_ciudaddata
 
+4. Esto es lo que debe estar en el env para el entorno de pruebas: 
+NODE_ENV=test
+MONGO_URI=mongodb://localhost:27017/ciudaddata_test
+PORT=3001
+JWT_SECRET=secret_test
+
 
 ### **Scripts disponibles**
 - `npm run dev` — Servidor en desarrollo
@@ -37,7 +43,8 @@ GEONAMES_USER=admin_ciudaddata
   [`http://localhost:3000/api-docs`](http://localhost:3000/api-docs)
 - El archivo Swagger JSON está disponible en el archivo`/swagger.json`.
 
-
+## Para ejecutar las pruebas use el comando: 
+npm run test
 
 ##  Endpoints principales
 
