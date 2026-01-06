@@ -1,9 +1,12 @@
 import { Router } from 'express';
-import { postIncident } from '../controllers/transitController';
+import { postIncident, getETA } from '../controllers/transitController';
 import { validarReporteTransit } from '../middlewares/validarReporteTransit';
+import { validarEstacion } from '../middlewares/validarEstacion';
 
 const router = Router();
 
+router.post('/incident', validarReporteTransit, postIncident);
+router.get('/eta', validarEstacion, getETA);
 router.post('/incident',
   /* 
      #swagger.path = '/transit/incident'
