@@ -1,3 +1,4 @@
+import { format } from 'node:path';
 import reporteCiudadano, {IReporteCiudadano} from '../models/reporteCiudadano';
 import axios from 'axios';
 
@@ -32,5 +33,28 @@ export const obtenerCiudad = async (city: string) => {
         latitud: respuesta.lat,
         longitud: respuesta.lng,
         poblacion: respuesta.population,
+    };
+};
+
+export const obtenerPoblacionPais = async (pais: string) => {
+    const url = `https://api.worldbank.org/v2/country/${pais}/indicator/SP.POP.TOTL?format=json&date=2020:2024`;
+    const params = {
+        format: 'json',
+        per_page: 1,
+    };
+
+    const {data} = await axios.get(url, {params});
+
+    if (!data?.[1]?.length) {
+        return null;
+    }
+
+    const respuesta = data[1][0];
+    return {
+        pais: respuesta.country.value,
+        codigoPais: respuesta.country.id,
+        año: respuesta.date,
+        poblacion: respuesta.value,
+        indicador: respuesta.indicator.value,
     };
 };
