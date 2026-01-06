@@ -3,6 +3,7 @@ import ReporteCiudadanoTransit from '../models/reporteCiudadanoTransit';
 
 const MTA_BASE_URL = 'https://api-endpoint.mta.info/Dataservice/mtagtfsfeeds';
 
+/** Guarda un nuevo incidente en el sistema de tránsito */
 export async function guardarIncidente(data: {
     tipo: 'retraso' | 'falla' | 'accidente' | 'mantenimiento' | 'otro';
     descripcion: string;
