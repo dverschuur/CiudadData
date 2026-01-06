@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import * as geoService from '../services/geoService';
 
+/** Crea un nuevo reporte ciudadano */
 export const postReporteCiudadano = async (req: Request, res: Response): Promise<void> => {
     try {
         const ReporteData = req.body;
@@ -22,6 +23,7 @@ export const postReporteCiudadano = async (req: Request, res: Response): Promise
     }
 };
 
+/** Obtiene latitud, longitud y otros datos geográficos de una ciudad específica */
 export const getCiudad = async (req: Request, res: Response): Promise<void> => {
     try {
         const city = req.params.city!;
@@ -52,6 +54,7 @@ export const getCiudad = async (req: Request, res: Response): Promise<void> => {
     }
 };
 
+/** Obtiene la población de un país */
 export const getPoblacionPais = async (req: Request, res: Response): Promise<void> => {
     try{
         const country = req.params.country!;

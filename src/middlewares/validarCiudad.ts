@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 
+/** Valida que el parámetro ciudad sea válido */
 export const validarCiudad = (req: Request, res: Response, next: NextFunction): void => {
     const { city } = req.params;
 

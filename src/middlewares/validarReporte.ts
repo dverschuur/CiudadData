@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 
+/** Valida que el reporte tenga los campos obligatorios */
 export const validarReporte = (req: Request, res: Response, next: NextFunction): void => {
     const { ciudad, titulo, descripcion, tipoIncidencia, ubicacion } = req.body;
 

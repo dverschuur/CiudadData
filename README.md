@@ -1,59 +1,87 @@
-NUESTRO PROYECTO CiudadData 
+# **Proyecto CiudadData**
+ Descripción
+Backend para gestión de datos urbanos usando Node.js, TypeScript y MongoDB. Incluye endpoints para incidencias geográficas, tránsito y consulta de datos poblacionales.
 
-BREVE DESCRIPCIÓN DEL PROYECTO: 
-Proyecto backend para gestionar datos de ciudad con Node.js, TypeScript y MongoDB. Incluye la configuración básica del servidor, conexión a la base de datos y los scripts para desarrollo y producción.
 
-REQUISITOS PARA INSTALACIÓN Y USO: 
-- Node.js v16 o superior
+## Instalación y configuración rápida
+
+### **Requisitos**
+- Node.js v16+
 - npm
-- Una instancia de MongoDB (Atlas o local) con URI de conexión
+- Instancia de MongoDB (Atlas o local)
 
-INSTALACIÓN:
-1. Clona el repositorio usando el comando:
-	git clone <repo-url>
-	cd CiudadData
+### **Pasos**
+1. Clona el repositorio:
+   git clone <repo-url>
+   cd CiudadData
 
-2. Instala dependencias:
-	npm install
+2. Instala las dependencias con el comando:
+   npm install
 
-CONFIGURACIÓN:
+3. Crea un archivo `.env` en la raíz:
+PORT=3000
+MONGO_URI=mongodb+srv://adminbd:12345@ciudaddata.n2ao9pe.mongodb.net/?appName=CiudadData
+GEONAMES_USER=admin_ciudaddata
 
-1. Crea un archivo `.env` en la raíz del proyecto con las variables mínimas:
 
-	MONGO_URI=tu_uri_de_mongodb
-	PORT=3000
-	NODE_ENV=development
+### **Scripts disponibles**
+- `npm run dev` — Servidor en desarrollo
+- `npm run build` — Compila TypeScript
+- `npm start` — Ejecuta la versión compilada
+- `npm test` — Ejecuta tests (si existen)
 
-2. Opcional: crea un archivo `.env.example` con las mismas claves pero sin valores, y añade `.env` a `.gitignore`.
+---
 
-Scripts disponibles: 
+##  Documentación de la API — Swagger UI
+- Accede a la documentación interactiva de la API en:
+  [`http://localhost:3000/api-docs`](http://localhost:3000/api-docs)
+- El archivo Swagger JSON está disponible en el archivo`/swagger.json`.
 
-- `npm run dev` — arranca el servidor en modo desarrollo (usa `nodemon` según la configuración del proyecto).
-- `npm run build` — compila TypeScript a JavaScript en la carpeta `dist`.
-- `npm start` — ejecuta la versión compilada en `dist`.
-- `npm test` — ejecuta los tests (si están implementados).
 
-Ejecutar en desarrollo:
 
-1. Asegúrate de tener `.env` con `MONGO_URI` configurado.
-2. Ejecuta:
+##  Endpoints principales
 
-	npm run dev
+### **/geo/report** `[POST]`
+Reporta incidencias geográficas (inundaciones, tráfico, etc.)
+- Requiere campos: `tipo`, `descripcion`, `ciudad`
+- Respuestas: `201` (creado), `500` (error)
 
-La API por defecto expone al menos la ruta raíz `/` que responde con un mensaje simple. Si se añade documentación Swagger, suele montarse en `/api-docs`.
+### **/geo/city/{city}** `[GET]`
+Obtiene datos de una ciudad (latitud, longitud, población, país)
+- Parámetro URL: `city` (string)
+- Respuestas: `200`, `404` (no encontrada), `500`
 
-COMPILAR Y EJECUTAR: 
+### **/geo/population/{country}** `[GET]`
+Consulta la población de un país determinado
+- Parámetro URL: `country` (string/código)
+- Respuestas: `200`, `404`, `500`
 
-1. Compila:
+### **/transit/incident** `[POST]`
+Reporta un incidente de transporte (accidente, retraso, etc.)
+- Requiere campos: `tipo`, `descripcion`, `linea`, `severidad`, etc.
+- Respuestas: `201`, `500`
 
-	npm run build
+---
 
-2. Inicia:
+## Ejemplos de uso
 
-	npm start
+### Reportar incidente geográfico
+```bash
+curl -X POST http://localhost:3000/geo/report -H "Content-Type: application/json" -d '{"tipo":"inundación","descripcion":"Calles inundadas en el centro","ciudad":"Madrid"}'
+```
 
-PARA LAS PRUEBAS: 
+### Obtener datos de ciudad
+```bash
+curl http://localhost:3000/geo/city/Madrid
+```
 
-Si se agregan tests, se ejecutan con:
+### Reportar incidente de tránsito
+```bash
+curl -X POST http://localhost:3000/transit/incident -H "Content-Type: application/json" -d '{"tipo":"accidente","descripcion":"Choque en la línea 1","linea":"1","severidad":"alta"}'
+```
 
-	npm test 
+
+##  Notas
+- Asegúrate de consultar la [documentación Swagger](http://localhost:3000/api-docs) para ver todos los detalles y ejemplos extendidos.
+- Si agregas endpoints o modelos, manten actualizado Swagger con `npm run swagger` o reiniciando el servidor, según configuración.
+

@@ -2,13 +2,10 @@ import express, { Request, Response } from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import { conectarbd } from './conexionbd';
-<<<<<<< HEAD
-const swaggerUi = require('swagger-ui-express');
-const swaggerDocument = require('./swagger_output.json');
-=======
 import geoRoutes from './routes/geoRoutes';
 import transitRoutes from './routes/transitRoutes';
->>>>>>> e65dd60616f834e0186c8e275b7b7b589dfb4d5c
+const swaggerUi = require('swagger-ui-express');
+const swaggerDocument = require('./swagger_output.json');
 
 dotenv.config();
 
@@ -20,7 +17,11 @@ app.use(express.json());
 app.use('/geo', geoRoutes);
 app.use('/transit', transitRoutes);
 
-// Swagger UI - documentación
+/**
+ * GET /api-docs
+ * @summary Muestra la documentación de la API en Swagger UI
+ * @returns {object} 200 - Documentación de la API
+ */
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 /**
@@ -55,7 +56,11 @@ app.get('/', (req: Request, res: Response) => {
     });
 });
 
-// Iniciar servidor
+/**
+ * Iniciar servidor
+ * @summary Inicia el servidor en el puerto especificado
+ * @returns {object} 200 - Mensaje de éxito con timestamp
+ */
 app.listen(port, () => { 
     console.log(`Servidor escuchando en http://localhost:${port}`);
 });
