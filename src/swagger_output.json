@@ -1,0 +1,268 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "API de Ciudades",
+    "description": "Documentación de la API para la gestión de ciudades",
+    "version": "1.0.0"
+  },
+  "host": "localhost:3000",
+  "basePath": "/",
+  "schemes": [
+    "http"
+  ],
+  "paths": {
+    "/swagger.json": {
+      "get": {
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/": {
+      "get": {
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/geo/report": {
+      "post": {
+        "summary": "Reporte ciudadano sobre incidencias geográficas",
+        "description": "Permite a los ciudadanos reportar problemas como inundaciones, tráfico, etc.",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "description": "Información del reporte",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "tipo": {
+                  "type": "string",
+                  "example": "inundación"
+                },
+                "descripcion": {
+                  "type": "string",
+                  "example": "Calles inundadas en el centro"
+                },
+                "ciudad": {
+                  "type": "string",
+                  "example": "Madrid"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Reporte creado exitosamente"
+          },
+          "500": {
+            "description": "Error al crear el reporte"
+          }
+        }
+      }
+    },
+    "/geo/city/{city}": {
+      "get": {
+        "summary": "Obtiene latitud, longitud y otros datos geográficos de una ciudad específica.",
+        "description": "",
+        "parameters": [
+          {
+            "name": "city",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "Nombre de la ciudad"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ciudad encontrada",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "success": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "nombre": {
+                      "type": "string",
+                      "example": "Madrid"
+                    },
+                    "pais": {
+                      "type": "string",
+                      "example": "España"
+                    },
+                    "latitud": {
+                      "type": "number",
+                      "example": 40.416775
+                    },
+                    "longitud": {
+                      "type": "number",
+                      "example": -3.70379
+                    },
+                    "poblacion": {
+                      "type": "number",
+                      "example": 3223334
+                    }
+                  }
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "404": {
+            "description": "Ciudad no encontrada"
+          },
+          "500": {
+            "description": "Error al buscar la ciudad"
+          }
+        }
+      }
+    },
+    "/geo/population/{country}": {
+      "get": {
+        "summary": "Retorna la población y datos demográficos de un país. ",
+        "description": "",
+        "parameters": [
+          {
+            "name": "country",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "Nombre (código) del país"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Población encontrada",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "success": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "pais": {
+                      "type": "string",
+                      "example": "España"
+                    },
+                    "codigoPais": {
+                      "type": "string",
+                      "example": "ES"
+                    },
+                    "año": {
+                      "type": "string",
+                      "example": "2020"
+                    },
+                    "poblacion": {
+                      "type": "number",
+                      "example": 47000000
+                    },
+                    "indicador": {
+                      "type": "string",
+                      "example": "Población total"
+                    }
+                  }
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "404": {
+            "description": "País no encontrado"
+          },
+          "500": {
+            "description": "Error al buscar la población"
+          }
+        }
+      }
+    },
+    "/transit/incident": {
+      "post": {
+        "summary": "Reporta un incidente en el sistema de tránsito",
+        "description": "Reporta incidentes como accidentes, retrasos, etc.",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "description": "Información del incidente",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "tipo": {
+                  "type": "string",
+                  "example": "accidente"
+                },
+                "descripcion": {
+                  "type": "string",
+                  "example": "Choque en la línea 1"
+                },
+                "linea": {
+                  "type": "string",
+                  "example": "1"
+                },
+                "estacion": {
+                  "type": "string",
+                  "example": "Gran Via"
+                },
+                "parada": {
+                  "type": "string",
+                  "example": ""
+                },
+                "severidad": {
+                  "type": "string",
+                  "example": "alta"
+                },
+                "reportadoPor": {
+                  "type": "string",
+                  "example": "usuario1"
+                },
+                "ubicacion": {
+                  "type": "object",
+                  "properties": {
+                    "lat": {
+                      "type": "number",
+                      "example": 40.42
+                    },
+                    "lng": {
+                      "type": "number",
+                      "example": -3.7
+                    }
+                  }
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Incidente guardado exitosamente"
+          },
+          "500": {
+            "description": "Error al guardar el incidente"
+          }
+        }
+      }
+    }
+  }
+}

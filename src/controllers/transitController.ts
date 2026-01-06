@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import { guardarIncidente, obtenerETA } from '../services/transitService';
 
+/** Guarda un nuevo incidente en el sistema de tránsito */
 export async function postIncident(req: Request, res: Response) {
     const { tipo, descripcion, linea, estacion, parada, severidad, reportadoPor, ubicacion } = req.body;
 
