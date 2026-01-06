@@ -36,8 +36,8 @@ export const obtenerCiudad = async (city: string) => {
     };
 };
 
-export const obtenerPoblacionPais = async (pais: string) => {
-    const url = `https://api.worldbank.org/v2/country/${pais}/indicator/SP.POP.TOTL?format=json&date=2020:2024`;
+export const obtenerPoblacionPais = async (country: string) => {
+    const url = `https://api.worldbank.org/v2/country/${country}/indicator/SP.POP.TOTL?format=json&date=2020:2024`;
     const params = {
         format: 'json',
         per_page: 1,

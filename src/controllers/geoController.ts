@@ -51,3 +51,32 @@ export const getCiudad = async (req: Request, res: Response): Promise<void> => {
         });
     }
 };
+
+export const getPoblacionPais = async (req: Request, res: Response): Promise<void> => {
+    try{
+        const country = req.params.country!;
+        const respuestaPoblacion = await geoService.obtenerPoblacionPais(country.toUpperCase());
+
+        if(!respuestaPoblacion){
+            res.status(404).json({
+                success: false,
+                message: 'País no encontrado',
+            });
+            return;
+        }
+
+        res.status(200).json({
+            success: true,
+            data: respuestaPoblacion,
+        });
+    }
+
+    catch (error) {
+        const mensaje = error instanceof Error ? error.message : 'Error desconocido';
+        console.error('Error al obtener la población del país:', mensaje, error);
+        res.status(500).json({
+            success: false,
+            message: 'Error al obtener la población del país',
+        });
+    }
+};
