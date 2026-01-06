@@ -37,19 +37,25 @@ export const obtenerCiudad = async (city: string) => {
 };
 
 export const obtenerPoblacionPais = async (country: string) => {
-    const url = `https://api.worldbank.org/v2/country/${country}/indicator/SP.POP.TOTL?format=json&date=2020:2024`;
+    const url = `http://api.worldbank.org/v2/country/${country}/indicator/SP.POP.TOTL`;
     const params = {
         format: 'json',
-        per_page: 1,
+        per_page: 10,
     };
 
     const {data} = await axios.get(url, {params});
 
+    
     if (!data?.[1]?.length) {
         return null;
     }
 
-    const respuesta = data[1][0];
+    const respuesta = data[1].find((item: any) => item.value !== null);
+    
+    if (!respuesta) {
+        return null;
+    }
+
     return {
         pais: respuesta.country.value,
         codigoPais: respuesta.country.id,
