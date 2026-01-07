@@ -16,9 +16,14 @@ router.post('/report',
             description: 'Información del reporte',
             required: true,
             schema: {
-                tipo: 'inundación',
-                descripcion: 'Calles inundadas en el centro',
-                ciudad: 'Madrid'
+                ciudad: 'Caracas',
+                titulo: 'Bache',
+                descripcion: 'Bache en la av. Chacao',
+                ubicacion: {
+                    latitud: 10.496,
+                    longitud: -66.898
+                },
+                tipoIncidencia: 'trafico'
             }
        }
        #swagger.responses[201] = { description: 'Reporte creado exitosamente' }

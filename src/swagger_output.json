@@ -44,17 +44,34 @@
             "schema": {
               "type": "object",
               "properties": {
-                "tipo": {
+                "ciudad": {
                   "type": "string",
-                  "example": "inundación"
+                  "example": "Caracas"
+                },
+                "titulo": {
+                  "type": "string",
+                  "example": "Bache"
                 },
                 "descripcion": {
                   "type": "string",
-                  "example": "Calles inundadas en el centro"
+                  "example": "Bache en la av. Chacao"
                 },
-                "ciudad": {
+                "ubicacion": {
+                  "type": "object",
+                  "properties": {
+                    "latitud": {
+                      "type": "number",
+                      "example": 10.496
+                    },
+                    "longitud": {
+                      "type": "number",
+                      "example": -66.898
+                    }
+                  }
+                },
+                "tipoIncidencia": {
                   "type": "string",
-                  "example": "Madrid"
+                  "example": "trafico"
                 }
               }
             }
@@ -72,7 +89,7 @@
     },
     "/geo/city/{city}": {
       "get": {
-        "summary": "Obtiene latitud, longitud y otros datos geográficos de una ciudad específica.",
+        "summary": "Obtiene las rutas de transporte para una ciudad específica.",
         "description": "",
         "parameters": [
           {
@@ -192,36 +209,6 @@
           },
           "500": {
             "description": "Error al buscar la población"
-          }
-        }
-      }
-    },
-    "/incident": {
-      "post": {
-        "description": "",
-        "responses": {
-          "default": {
-            "description": ""
-          }
-        }
-      }
-    },
-    "/eta": {
-      "get": {
-        "description": "",
-        "responses": {
-          "default": {
-            "description": ""
-          }
-        }
-      }
-    },
-    "/routes/{city}": {
-      "get": {
-        "description": "",
-        "responses": {
-          "default": {
-            "description": ""
           }
         }
       }

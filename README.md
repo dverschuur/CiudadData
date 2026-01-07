@@ -3,92 +3,114 @@
 Backend para gestión de datos urbanos usando Node.js, TypeScript y MongoDB. Incluye endpoints para incidencias geográficas, tránsito y consulta de datos poblacionales.
 
 
-## Instalación y configuración rápida
+## Instalación y configuración
 
-### **Requisitos**
-- Node.js v16+
-- npm
-- Instancia de MongoDB (Atlas o local)
+### **Requisitos del sistema**
 
-### **Pasos**
-1. Clona el repositorio:
-   git clone <repo-url>
-   cd CiudadData
+Antes de comenzar, asegúrate de tener instalado:
 
-2. Instala las dependencias con el comando:
-   npm install
+- **Node.js** v16 o superior
+- **npm** (viene incluido con Node.js) o **yarn**
+- **MongoDB** (local o cuenta en MongoDB Atlas)
+- **Git** (para clonar el repositorio)
 
-3. Crea un archivo `.env` en la raíz:
+#### **Instalación de Node.js y npm**
+
+1. **instalación de node.js**
+   - Descarga Node.js desde [nodejs.org](https://nodejs.org/)
+   - Instala la versión LTS (Long Term Support)
+   - Verifica la instalación:
+     ```bash
+     node --version
+     npm --version
+     ```
+
+#### **Instalación de MongoDB**
+
+**Opción 1: MongoDB Atlas (Recomendado para desarrollo rápido)**
+1. Crea una cuenta gratuita en [MongoDB Atlas](https://www.mongodb.com/cloud/atlas)
+
+### **Pasos de instalación del proyecto**
+
+#### **1. Clonar el repositorio**
+
+```bash
+git clone https://github.com/dverschuur/CiudadData.git
+cd CiudadData
+```
+
+#### **2. Instalar dependencias**
+
+```bash
+npm install
+```
+
+Esto instalará todas las dependencias necesarias:
+- **Dependencias de producción:** express, mongoose, axios, cors, dotenv, etc.
+- **Dependencias de desarrollo:** typescript, jest, ts-jest, nodemon, swagger-autogen, etc.
+
+#### **3. Configurar variables de entorno**
+
+Crea un archivo `.env` en la raíz del proyecto con el siguiente contenido:
+
+```env
+# Puerto del servidor
 PORT=3000
+
+# URI de conexión a MongoDB
+# Para MongoDB Atlas:
 MONGO_URI=mongodb+srv://adminbd:12345@ciudaddata.n2ao9pe.mongodb.net/?appName=CiudadData
+# Para MongoDB local:
+# MONGO_URI=mongodb://localhost:27017/ciudaddata
+
+# Usuario de GeoNames API (requerido para consultas geográficas)
 GEONAMES_USER=admin_ciudaddata
 
-4. Esto es lo que debe estar en el env para el entorno de pruebas: 
+# Entorno de ejecución
+NODE_ENV=development
+```
+
+
+
+#### **4. Configurar entorno de pruebas**
+
+Crea un archivo `.env.test` en la raíz del proyecto para las pruebas unitarias:
+
+```env
 NODE_ENV=test
-MONGO_URI=mongodb://localhost:27017/ciudaddata_test
+MONGO_URI=mongodb+srv://adminbd:12345@ciudaddata.n2ao9pe.mongodb.net/?appName=CiudadData
 PORT=3001
 JWT_SECRET=secret_test
+GEONAMES_USER=admin_ciudaddata
+```
+
+**Importante:** Asegúrate de que MongoDB esté corriendo localmente para las pruebas, o ajusta la URI según tu configuración.
+
+#### **5. Verificar la instalación**
 
 
-### **Scripts disponibles**
-- `npm run dev` — Servidor en desarrollo
-- `npm run build` — Compila TypeScript
-- `npm start` — Ejecuta la versión compilada
-- `npm test` — Ejecuta tests (si existen)
+ **Ejecutar pruebas:**
+   ```bash
+   npm run test
+   ```
 
----
+**Iniciar servidor en modo desarrollo:**
+   ```bash
+   npm run dev
+   ```
+
+   El servidor debería iniciarse en `http://localhost:3000`
+
+ **Verificar documentación Swagger:**
+   - Accede a: `http://localhost:3000/api-docs`
+   - Deberías ver la documentación interactiva de la API
+
 
 ##  Documentación de la API — Swagger UI
 - Accede a la documentación interactiva de la API en:
   [`http://localhost:3000/api-docs`](http://localhost:3000/api-docs)
 - El archivo Swagger JSON está disponible en el archivo`/swagger.json`.
 
-## Para ejecutar las pruebas use el comando: 
-npm run test
-
-##  Endpoints principales
-
-### **/geo/report** `[POST]`
-Reporta incidencias geográficas (inundaciones, tráfico, etc.)
-- Requiere campos: `tipo`, `descripcion`, `ciudad`
-- Respuestas: `201` (creado), `500` (error)
-
-### **/geo/city/{city}** `[GET]`
-Obtiene datos de una ciudad (latitud, longitud, población, país)
-- Parámetro URL: `city` (string)
-- Respuestas: `200`, `404` (no encontrada), `500`
-
-### **/geo/population/{country}** `[GET]`
-Consulta la población de un país determinado
-- Parámetro URL: `country` (string/código)
-- Respuestas: `200`, `404`, `500`
-
-### **/transit/incident** `[POST]`
-Reporta un incidente de transporte (accidente, retraso, etc.)
-- Requiere campos: `tipo`, `descripcion`, `linea`, `severidad`, etc.
-- Respuestas: `201`, `500`
-
----
-
-## Ejemplos de uso
-
-### Reportar incidente geográfico
-```bash
-curl -X POST http://localhost:3000/geo/report -H "Content-Type: application/json" -d '{"tipo":"inundación","descripcion":"Calles inundadas en el centro","ciudad":"Madrid"}'
-```
-
-### Obtener datos de ciudad
-```bash
-curl http://localhost:3000/geo/city/Madrid
-```
-
-### Reportar incidente de tránsito
-```bash
-curl -X POST http://localhost:3000/transit/incident -H "Content-Type: application/json" -d '{"tipo":"accidente","descripcion":"Choque en la línea 1","linea":"1","severidad":"alta"}'
-```
-
-
 ##  Notas
-- Asegúrate de consultar la [documentación Swagger](http://localhost:3000/api-docs) para ver todos los detalles y ejemplos extendidos.
 - Si agregas endpoints o modelos, manten actualizado Swagger con `npm run swagger` o reiniciando el servidor, según configuración.
 
