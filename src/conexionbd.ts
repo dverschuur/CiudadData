@@ -10,6 +10,9 @@ export const conectarbd = async (): Promise<void> => {
     console.log('Base de datos conectada exitosamente a:', mongoose.connection.name);
   } catch (error) {
     console.error('Error conectando a la base de datos:', error);
-    process.exit(1);
+    // Evitar terminar el proceso durante tests (Jest intercepta llamadas a process.exit)
+    if (process.env.NODE_ENV !== 'test') {
+      process.exit(1);
+    }
   }
 };
