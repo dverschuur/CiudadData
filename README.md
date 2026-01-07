@@ -92,25 +92,6 @@ Reporta un incidente de transporte (accidente, retraso, etc.)
 - Requiere campos: `tipo`, `descripcion`, `linea`, `severidad`, etc.
 - Respuestas: `201`, `500`
 
----
-
-## Ejemplos de uso
-
-### Reportar incidente geográfico
-```bash
-curl -X POST http://localhost:3000/geo/report -H "Content-Type: application/json" -d '{"tipo":"inundación","descripcion":"Calles inundadas en el centro","ciudad":"Madrid"}'
-```
-
-### Obtener datos de ciudad
-```bash
-curl http://localhost:3000/geo/city/Madrid
-```
-
-### Reportar incidente de tránsito
-```bash
-curl -X POST http://localhost:3000/transit/incident -H "Content-Type: application/json" -d '{"tipo":"accidente","descripcion":"Choque en la línea 1","linea":"1","severidad":"alta"}'
-```
-
 
 ##  Notas
 - Asegúrate de consultar la [documentación Swagger](http://localhost:3000/api-docs) para ver todos los detalles y ejemplos extendidos.
