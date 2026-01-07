@@ -60,8 +60,6 @@ PORT=3000
 # URI de conexión a MongoDB
 # Para MongoDB Atlas:
 MONGO_URI=mongodb+srv://adminbd:12345@ciudaddata.n2ao9pe.mongodb.net/?appName=CiudadData
-# Para MongoDB local:
-# MONGO_URI=mongodb://localhost:27017/ciudaddata
 
 # Usuario de GeoNames API (requerido para consultas geográficas)
 GEONAMES_USER=admin_ciudaddata

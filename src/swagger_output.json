@@ -89,7 +89,7 @@
     },
     "/geo/city/{city}": {
       "get": {
-        "summary": "Obtiene las rutas de transporte para una ciudad específica.",
+        "summary": "Obtiene latitud, longitud y otros datos geográficos de una ciudad específica.",
         "description": "",
         "parameters": [
           {
@@ -277,6 +277,172 @@
           },
           "500": {
             "description": "Error al guardar el incidente"
+          }
+        }
+      }
+    },
+    "/transit/eta": {
+      "get": {
+        "summary": "Obtiene la llegada estimada (ETA) del próximo tren/bus en una estación específica.",
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "Información de llegadas estimadas",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "success": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "stopId": {
+                          "type": "string",
+                          "example": "103S"
+                        },
+                        "stopName": {
+                          "type": "string",
+                          "example": "238 St"
+                        },
+                        "arrivals": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "routeId": {
+                                "type": "string",
+                                "example": "1"
+                              },
+                              "line": {
+                                "type": "string",
+                                "example": "1"
+                              },
+                              "eta": {
+                                "type": "string",
+                                "example": "29 minutos"
+                              },
+                              "etaTimestamp": {
+                                "type": "string",
+                                "example": "2026-01-07T03:36:00.000Z"
+                              },
+                              "feed": {
+                                "type": "string",
+                                "example": "1234567"
+                              }
+                            }
+                          }
+                        },
+                        "totalArrivals": {
+                          "type": "number",
+                          "example": 3
+                        },
+                        "feedsQueried": {
+                          "type": "array",
+                          "example": [
+                            "ACE",
+                            "BDFM",
+                            "G",
+                            "JZ",
+                            "NQRW",
+                            "L",
+                            "1234567",
+                            "SIR"
+                          ],
+                          "items": {
+                            "type": "string"
+                          }
+                        },
+                        "lastUpdated": {
+                          "type": "string",
+                          "example": "2026-01-07T03:06:28.000Z"
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "404": {
+            "description": "Ciudad no encontrada"
+          },
+          "500": {
+            "description": "Error al buscar la ciudad"
+          }
+        }
+      }
+    },
+    "/transit/routes/{city}": {
+      "get": {
+        "summary": "Obtiene las rutas de transporte para una ciudad específica.",
+        "description": "",
+        "parameters": [
+          {
+            "name": "city",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "Nombre de la ciudad"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ciudad encontrada",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "success": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "nombre": {
+                      "type": "string",
+                      "example": "Madrid"
+                    },
+                    "pais": {
+                      "type": "string",
+                      "example": "España"
+                    },
+                    "latitud": {
+                      "type": "number",
+                      "example": 40.416775
+                    },
+                    "longitud": {
+                      "type": "number",
+                      "example": -3.70379
+                    },
+                    "poblacion": {
+                      "type": "number",
+                      "example": 3223334
+                    }
+                  }
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "404": {
+            "description": "Ciudad no encontrada"
+          },
+          "500": {
+            "description": "Error al buscar la ciudad"
           }
         }
       }

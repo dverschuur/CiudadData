@@ -33,10 +33,10 @@ router.post('/incident'
 
 router.get('/eta'
   /* 
-       #swagger.path = '/geo/city/{city}'
+       #swagger.path = '/transit/eta'
        #swagger.summary = 'Obtiene la llegada estimada (ETA) del próximo tren/bus en una estación específica.'
        #swagger.responses[200] = { 
-            description: ,
+            description: 'Información de llegadas estimadas',
             schema: {
                 success: true,
                       data: {
@@ -90,7 +90,7 @@ router.get('/eta'
 
 router.get('/routes/:city'
   /* 
-      #swagger.path = '/geo/city/{city}'
+      #swagger.path = '/transit/routes/{city}'
       #swagger.summary = 'Obtiene las rutas de transporte para una ciudad específica.'
       #swagger.parameters['city'] = { description: 'Nombre de la ciudad' }
       #swagger.responses[200] = { 
@@ -109,30 +109,5 @@ router.get('/routes/:city'
       #swagger.responses[404] = { description: 'Ciudad no encontrada' }
       #swagger.responses[500] = { description: 'Error al buscar la ciudad' }
     */, validarCiudadTransit, getRoutes);
-
-router.post('/incident',
-  /* 
-    #swagger.path = '/transit/incident'
-    #swagger.summary = 'Reporta un incidente en el sistema de tránsito'
-    #swagger.description = 'Reporta incidentes como accidentes, retrasos, etc.'
-    #swagger.parameters['body'] = {
-          in: 'body',
-          description: 'Información del incidente',
-          required: true,
-          schema: {
-              tipo: 'accidente',
-              descripcion: 'Choque en la línea 1',
-              linea: '1',
-              estacion: 'Gran Via',
-              parada: '',
-              severidad: 'alta',
-              reportadoPor: 'usuario1',
-              ubicacion: { lat: 40.42, lng: -3.7 }
-          }
-    }
-    #swagger.responses[201] = { description: 'Incidente guardado exitosamente' }
-    #swagger.responses[500] = { description: 'Error al guardar el incidente' }
-  */
-  validarReporteTransit, postIncident);
 
 export default router;
