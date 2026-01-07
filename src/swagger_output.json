@@ -196,6 +196,36 @@
         }
       }
     },
+    "/incident": {
+      "post": {
+        "description": "",
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/eta": {
+      "get": {
+        "description": "",
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/routes/{city}": {
+      "get": {
+        "description": "",
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    },
     "/transit/incident": {
       "post": {
         "summary": "Reporta un incidente en el sistema de tránsito",
