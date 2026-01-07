@@ -7,34 +7,51 @@ Backend para gestión de datos urbanos usando Node.js, TypeScript y MongoDB. Inc
 
 ### **Requisitos**
 - Node.js v16+
-- npm
-- Instancia de MongoDB (Atlas o local)
+- npm (o yarn)
+- Instancia de MongoDB (Atlas o local) — opcional para tests si usas mocks o `mongodb-memory-server`
 
 ### **Pasos**
 1. Clona el repositorio:
    git clone <repo-url>
    cd CiudadData
 
-2. Instala las dependencias con el comando:
+2. Instala las dependencias:
    npm install
 
-3. Crea un archivo `.env` en la raíz:
+3. Crea un archivo `.env` en la raíz (ejemplo):
+```env
 PORT=3000
 MONGO_URI=mongodb+srv://adminbd:12345@ciudaddata.n2ao9pe.mongodb.net/?appName=CiudadData
 GEONAMES_USER=admin_ciudaddata
+JWT_SECRET=your_jwt_secret
+```
 
-4. Esto es lo que debe estar en el env para el entorno de pruebas: 
+4. Archivo de entorno para pruebas `.env.test` (ya incluido en el repo de ejemplo):
+```env
 NODE_ENV=test
 MONGO_URI=mongodb://localhost:27017/ciudaddata_test
 PORT=3001
 JWT_SECRET=secret_test
+GEONAMES_USER=test_user
+```
 
+### **Instalación adicional recomendada para tests**
+- (Opcional) `cross-env` para forzar `NODE_ENV=test` de forma portable en scripts de npm:
+  ```bash
+  npm install -D cross-env
+  ```
+- (Opcional) `mongodb-memory-server` para ejecutar MongoDB en memoria durante tests de integración:
+  ```bash
+  npm install -D mongodb-memory-server
+  ```
 
 ### **Scripts disponibles**
-- `npm run dev` — Servidor en desarrollo
+- `npm run dev` — Servidor en desarrollo (nodemon + ts-node)
 - `npm run build` — Compila TypeScript
 - `npm start` — Ejecuta la versión compilada
-- `npm test` — Ejecuta tests (si existen)
+- `npm test` — Ejecuta tests con Jest
+- `npm run test:watch` — Ejecuta tests en modo watch
+- `npm run test:coverage` — Ejecuta tests y muestra cobertura
 
 ---
 
@@ -43,8 +60,15 @@ JWT_SECRET=secret_test
   [`http://localhost:3000/api-docs`](http://localhost:3000/api-docs)
 - El archivo Swagger JSON está disponible en el archivo`/swagger.json`.
 
-## Para ejecutar las pruebas use el comando: 
+## Ejecutar las pruebas
+
+Comandos básicos:
+```bash
 npm run test
+npm run test:watch
+npm run test:coverage
+```
+
 
 ##  Endpoints principales
 
